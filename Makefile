@@ -27,7 +27,7 @@ build:
 deploy:
 	git worktree add app/build gh-pages
 	cd build
-    git add --all
-    git commit -m "Deploy to gh-pages"
-    git push origin gh-pages
-    cd ..
+	git add --all
+	git commit -m "Deploy to gh-pages"
+	git push origin gh-pages
+	cd ..
