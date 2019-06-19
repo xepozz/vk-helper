@@ -22,3 +22,12 @@ file-ready-create:
 
 build:
 	docker-compose run --rm app-node-cli npm run-script build
+	sudo chown $USER:root app/build/ -R
+
+deploy:
+	git worktree add app/build gh-pages
+	cd build
+    git add --all
+    git commit -m "Deploy to gh-pages"
+    git push origin gh-pages
+    cd ..
