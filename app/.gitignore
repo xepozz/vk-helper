@@ -5,14 +5,14 @@ npm-debug.log*
 *.lock
 
 # Dependency directories
-package-lock.json
+#package-lock.json
 /node_modules
 
 # Optional npm cache directory
 .npm
 
 # Prod Bundle
-/build
+#/build
 
 .vscode
 .idea
