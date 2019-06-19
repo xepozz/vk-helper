@@ -19,3 +19,6 @@ file-ready-delete:
 	docker run --rm -v ${PWD}/app:/var/www/app --workdir=/var/www/app alpine rm -f /tmp/.ready
 file-ready-create:
 	docker run --rm -v ${PWD}/app:/var/www/app --workdir=/var/www/app alpine touch -f /tmp/.ready
+
+build:
+	docker-compose run --rm app-node-cli npm run-script build
