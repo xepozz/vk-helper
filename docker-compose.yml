@@ -15,7 +15,9 @@ services:
     depends_on:
       - app-node-cli
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
+    hostname: "vk-helper.local"
 #  app-node-watch:
 #    image: node:11.12-alpine
 #    restart: on-failure
