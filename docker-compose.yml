@@ -1,25 +1,25 @@
 version: '3.1'
 services:
-  app-nodejs:
+  app-node-cli:
     build:
       context: docker/app/node-cli
       dockerfile: Dockerfile
     volumes:
       - ./app:/var/www/app
-#  app-nginx3:
-#    build:
-#      context: ./docker/app/nginx
-#      dockerfile: Dockerfile
-#    volumes:
-#      - ./app:/var/www/app
-#    depends_on:
-#      - app-php-fpm
-#    ports:
-#      - "8080:80"
-  app-node-watch:
-    image: node:11.12-alpine
-    restart: on-failure
+  app-nginx:
+    build:
+      context: ./docker/app/nginx
+      dockerfile: Dockerfile
     volumes:
       - ./app:/var/www/app
-    working_dir: /var/www/app
-    command: sh -c "until [ ! -f "/tmp/.ready" ] ; do echo sleep && sleep 1 ; done && npm run watch"
+    depends_on:
+      - app-node-cli
+    ports:
+      - "8080:80"
+#  app-node-watch:
+#    image: node:11.12-alpine
+#    restart: on-failure
+#    volumes:
+#      - ./app:/var/www/app
+#    working_dir: /var/www/app
+#    command: sh -c "until [ ! -f "/tmp/.ready" ] ; do echo sleep && sleep 1 ; done && npm run watch"
