@@ -25,8 +25,4 @@ build:
 	sudo chown ${USER}:root app/build/ -R
 
 deploy:
-	cd app/build
-	git add --all
-	git commit -m "Deploy to gh-pages"
-	git push origin gh-pages
-	cd ..
+	cd app/build && git add --all && git commit -m "Deploy to gh-pages" && git push origin gh-pages
