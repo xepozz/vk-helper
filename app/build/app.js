@@ -735,10 +735,10 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ "./node_modules/@vkontakte/icons/dist/24/user.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@vkontakte/icons/dist/24/user.js ***!
-  \*******************************************************/
+/***/ "./node_modules/@vkontakte/icons/dist/24/users.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@vkontakte/icons/dist/24/users.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -767,8 +767,8 @@ function _interopRequireDefault(obj) {
 }
 
 var viewBox = '0 0 24 24';
-var id = 'user_24';
-var content = '<symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="user_24"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z" /><path d="M16 8c0-2.21-1.79-4-4-4S8 5.79 8 8s1.79 4 4 4 4-1.79 4-4zM4 18v.995C4 19.55 4.45 20 5.005 20h13.99C19.55 20 20 19.55 20 18.995V18c0-3.5-5.33-4.5-8-4.5s-8 1-8 4.5z" fill="currentColor" /></g></symbol>';
+var id = 'users_24';
+var content = '<symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="users_24"><g fill="none" fill-rule="evenodd"><path d="M0 0h24v24H0z" /><path d="M14.829 12.724A11.034 11.034 0 0 1 17 12.5c2.294 0 6.5.857 6.5 4.286 0 1.5-.382 1.714-1.147 1.714h-6.09c.158-.489.237-1.062.237-1.714 0-1.723-.631-3.067-1.671-4.062zM1.5 16.786C1.5 13.357 5.706 12.5 8 12.5c2.294 0 6.5.857 6.5 4.286 0 1.5-.382 1.714-1.147 1.714H2.647c-.765 0-1.147-.214-1.147-1.714zM11 8a3 3 0 1 1-6 0 3 3 0 1 1 6 0zm9 0a3 3 0 1 1-6 0 3 3 0 1 1 6 0z" fill="currentColor" /></g></symbol>';
 var browserSymbol = new _browserSymbol.default({
   id: id,
   viewBox: viewBox,
@@ -2212,6 +2212,60 @@ Header.defaultProps = {
   level: '1'
 };
 var _default = Header;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@vkontakte/vkui/src/components/Link/Link.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@vkontakte/vkui/src/components/Link/Link.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _getClassName = _interopRequireDefault(__webpack_require__(/*! ../../helpers/getClassName */ "./node_modules/@vkontakte/vkui/src/helpers/getClassName.js"));
+
+var _classNames = _interopRequireDefault(__webpack_require__(/*! ../../lib/classNames */ "./node_modules/@vkontakte/vkui/src/lib/classNames.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+var baseClassName = (0, _getClassName.default)('Link');
+
+var Link = function Link(_ref) {
+  var children = _ref.children,
+      className = _ref.className,
+      Component = _ref.Component,
+      getRootRef = _ref.getRootRef,
+      restProps = _objectWithoutProperties(_ref, ["children", "className", "Component", "getRootRef"]);
+
+  return _react.default.createElement(Component, _extends({}, restProps, {
+    ref: getRootRef,
+    className: (0, _classNames.default)(baseClassName, className)
+  }), children);
+};
+
+Link.defaultProps = {
+  Component: 'a'
+};
+var _default = Link;
 exports.default = _default;
 
 /***/ }),
@@ -15889,13 +15943,15 @@ var _chevron_back = _interopRequireDefault(__webpack_require__(/*! @vkontakte/ic
 
 var _back = _interopRequireDefault(__webpack_require__(/*! @vkontakte/icons/dist/24/back */ "./node_modules/@vkontakte/icons/dist/24/back.js"));
 
-var _user = _interopRequireDefault(__webpack_require__(/*! @vkontakte/icons/dist/24/user */ "./node_modules/@vkontakte/icons/dist/24/user.js"));
+var _users = _interopRequireDefault(__webpack_require__(/*! @vkontakte/icons/dist/24/users */ "./node_modules/@vkontakte/icons/dist/24/users.js"));
 
 var _Group = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/Group/Group */ "./node_modules/@vkontakte/vkui/src/components/Group/Group.js"));
 
 var _List = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/List/List */ "./node_modules/@vkontakte/vkui/src/components/List/List.js"));
 
 var _Cell = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/Cell/Cell */ "./node_modules/@vkontakte/vkui/src/components/Cell/Cell.js"));
+
+var _Link = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/Link/Link */ "./node_modules/@vkontakte/vkui/src/components/Link/Link.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15930,10 +15986,32 @@ function (_React$Component) {
     _classCallCheck(this, GroupsList);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(GroupsList).call(this, props));
+
+    _this.createTable = function () {
+      var list = [];
+      var groups = _this.state.groupsList;
+      var groupCount = groups.length;
+
+      if (groupCount > 0) {
+        for (var i = 0; i < groupCount; ++i) {
+          var group = groups[i];
+          list.push(_react.default.createElement(_Cell.default, {
+            before: _react.default.createElement(_users.default, null)
+          }, _react.default.createElement(_Link.default, {
+            href: "/group/{group.id}"
+          }, group.name)));
+        }
+      } else {
+        list.push(_react.default.createElement(_Cell.default, null, "\u0413\u0440\u0443\u043F\u043F \u043D\u0435 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u043E"));
+      }
+
+      return list;
+    };
+
     _this.state = {
       activePanel: 'home',
       fetchedUser: null,
-      groups: []
+      groupsList: []
     };
     return _this;
   }
@@ -15948,9 +16026,7 @@ function (_React$Component) {
           onClick: this.props.go,
           "data-to": "home"
         }, osname === _vkui.IOS ? _react.default.createElement(_chevron_back.default, null) : _react.default.createElement(_back.default, null))
-      }, "Groups list"), _react.default.createElement(_Group.default, null, _react.default.createElement(_List.default, null, _react.default.createElement(_Cell.default, {
-        before: _react.default.createElement(_user.default, null)
-      }, "\u0423\u0447\u0435\u0442\u043D\u0430\u044F \u0437\u0430\u043F\u0438\u0441\u044C"))));
+      }, "Groups list"), _react.default.createElement(_Group.default, null, _react.default.createElement(_List.default, null, this.createTable())));
     }
   }]);
 
