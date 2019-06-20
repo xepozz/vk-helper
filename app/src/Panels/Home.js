@@ -21,6 +21,11 @@ const Home = ({ id, go, fetchedUser }) => (
 					Show me the Persik, please
 				</Button>
 			</Div>
+			<Div>
+				<Button size="xl" level="2" onClick={go} data-to="groups-list">
+					Show list groups
+				</Button>
+			</Div>
 		</Group>
 	</Panel>
 );
