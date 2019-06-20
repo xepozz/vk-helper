@@ -21,8 +21,12 @@ file-ready-create:
 	docker run --rm -v ${PWD}/app:/var/www/app --workdir=/var/www/app alpine touch -f /tmp/.ready
 
 build:
-	docker-compose run --rm app-node-cli npm run-script build
+	docker-compose run --rm app-node-cli npm run dev
 	sudo chown ${USER}:root app/build/ -R
 
 deploy:
 	git subtree push --prefix app/build origin gh-pages
+
+vendor-reinstall:
+	docker-compose run --rm app-node-cli rm -rf node_modules package-lock.json
+	docker-compose run --rm app-node-cli npm install
