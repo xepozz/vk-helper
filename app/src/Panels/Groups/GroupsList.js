@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import {Panel, PanelHeader, HeaderButton, platform, IOS} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
-import Icon24User from '@vkontakte/icons/dist/24/user';
+import Icon24Users from '@vkontakte/icons/dist/24/users';
 import Group from "@vkontakte/vkui/src/components/Group/Group";
 import List from "@vkontakte/vkui/src/components/List/List";
 import Cell from "@vkontakte/vkui/src/components/Cell/Cell";
+import Link from "@vkontakte/vkui/src/components/Link/Link";
 
 const osname = platform();
 
@@ -17,9 +18,31 @@ class GroupsList extends React.Component {
         this.state = {
             activePanel: 'home',
             fetchedUser: null,
-            groups: [],
+            groupsList: [],
         };
     }
+
+    createTable = () => {
+        const list = [];
+        const groups = this.state.groupsList;
+        const groupCount = groups.length;
+        if (groupCount > 0) {
+            for (let i = 0; i < groupCount; ++i) {
+                let group = groups[i];
+                list.push(
+                    <Cell before={<Icon24Users/>}>
+                        <Link href="/group/{group.id}">{group.name}</Link>
+                    </Cell>
+                );
+            }
+        } else {
+            list.push(
+                <Cell>Групп не обнаружено</Cell>
+            );
+        }
+
+        return list
+    };
 
     render() {
         return (
@@ -33,8 +56,7 @@ class GroupsList extends React.Component {
                 </PanelHeader>
                 <Group>
                     <List>
-                        {/*{groups}*/}
-                        <Cell before={<Icon24User/>}>Учетная запись</Cell>
+                        {this.createTable()}
                     </List>
                 </Group>
             </Panel>
