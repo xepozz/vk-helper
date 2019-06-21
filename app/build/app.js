@@ -26187,9 +26187,9 @@ function (_React$Component) {
       return _react.default.createElement(_View.default, {
         id: this.props.id,
         popout: this.state.popout,
-        activePanel: "group-list-panel"
+        activePanel: "groups-list-panel"
       }, _react.default.createElement(_vkui.Panel, {
-        id: "group-list-panel"
+        id: "groups-list-panel"
       }, _react.default.createElement(_vkui.PanelHeader, {
         left: _react.default.createElement(_vkui.HeaderButton, {
           onClick: this.props.go,
@@ -26308,7 +26308,7 @@ function (_React$Component) {
         size: "xl",
         level: "2",
         onClick: this.props.go,
-        "data-to": "group-list-panel"
+        "data-to": "groups-list-view"
       }, "\u0413\u0440\u0443\u043F\u043F\u044B, \u043E\u0442 \u043A\u043E\u0442\u043E\u0440\u044B\u0445 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"))));
     }
   }]);
