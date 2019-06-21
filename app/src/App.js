@@ -4,7 +4,8 @@ import {View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Home from './Panels/Home';
-import GroupsList from "./Panels/Groups/GroupsList";
+import GroupsListView from "./Panels/Groups/GroupsList";
+import Root from "@vkontakte/vkui/src/components/Root/Root";
 
 class App extends React.Component {
     constructor(props) {
@@ -51,13 +52,15 @@ class App extends React.Component {
 
     render() {
         return (
-            <View activePanel={this.state.activePanel}>
-                <Home id="home" fetchedUser={this.state.user} go={this.go}/>
-                <GroupsList id="groups-list"
-                            go={this.go}
-                            groups={this.state.groups}
-                            accessToken={this.state.accessToken} user={this.state.user}/>
-            </View>
+            <Root activeView={this.state.activeView}>
+                <View activePanel={this.state.activePanel}>
+                    <Home id="home" fetchedUser={this.state.user} go={this.go}/>
+                </View>
+                <GroupsListView id="groups-list"
+                                go={this.go}
+                                groups={this.state.groups}
+                                accessToken={this.state.accessToken} user={this.state.user}/>
+            </Root>
         );
     }
 }

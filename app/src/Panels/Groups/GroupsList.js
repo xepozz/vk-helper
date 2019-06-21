@@ -15,6 +15,7 @@ import Button from "@vkontakte/vkui/src/components/Button/Button";
 import {FormLayout} from "@vkontakte/vkui/src";
 import ScreenSpinner from "@vkontakte/vkui/src/components/ScreenSpinner/ScreenSpinner";
 import Alert from "@vkontakte/vkui/src/components/Alert/Alert";
+import View from "@vkontakte/vkui/src/components/View/View";
 
 const osname = platform();
 
@@ -31,6 +32,7 @@ class GroupsList extends React.Component {
         };
         this.onChange = this.onChange.bind(this);
         this.closePopout = this.closePopout.bind(this);
+        this.setSpinner = this.setSpinner.bind(this);
     }
 
     componentDidMount() {
@@ -45,12 +47,13 @@ class GroupsList extends React.Component {
                     const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
                     console.log(invalidGroups);
                     this.setState({invalidGroups: invalidGroups});
+                    this.setSpinner(false);
                     break;
                 default:
                     console.log(e.detail.type);
             }
         });
-        this.setState({popout: <ScreenSpinner/>});
+        this.setSpinner(true);
         connect.send("VKWebAppCallAPIMethod", {
             "method": "groups.get",
             "request_id": Math.random(),
@@ -62,6 +65,11 @@ class GroupsList extends React.Component {
                 "access_token": this.props.accessToken
             }
         });
+    }
+
+    setSpinner(isActive) {
+        const popout = isActive ? <ScreenSpinner/> : null;
+        this.setState({popout: popout});
     }
 
     static filterInvalidGroups(groupsList) {
@@ -145,10 +153,6 @@ class GroupsList extends React.Component {
         return this.state.selectedGroups;
     }
 
-    closePopout() {
-        this.setState({popout: null});
-    }
-
     createTable = () => {
         const list = [];
         const groups = this.state.invalidGroups;
@@ -180,23 +184,24 @@ class GroupsList extends React.Component {
 
     render() {
         const table = this.createTable();
-        this.closePopout();
 
         return (
-            <Panel id={this.props.id}>
-                <PanelHeader
-                    left={<HeaderButton onClick={this.props.go} data-to="home">
-                        {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
-                    </HeaderButton>}
-                >
-                    Сообщества, от которых можно отписаться
-                </PanelHeader>
-                <Group>
-                    <List>
-                        {table}
-                    </List>
-                </Group>
-            </Panel>
+            <View popout={this.state.popout} activePanel={this.props.id}>
+                <Panel id={this.props.id}>
+                    <PanelHeader
+                        left={<HeaderButton onClick={this.props.go} data-to="home">
+                            {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
+                        </HeaderButton>}
+                    >
+                        Сообщества, от которых можно отписаться
+                    </PanelHeader>
+                    <Group>
+                        <List>
+                            {table}
+                        </List>
+                    </Group>
+                </Panel>
+            </View>
         );
     }
 }
