@@ -1,5 +1,6 @@
 init: file-ready-create docker-down docker-pull docker-build docker-up file-ready-delete run-app-makefile
-bcp: build-prod commit-build deploy
+build-commit-deploy-prod: build-prod commit-build deploy
+build-commit-deploy-dev: build-dev commit-build deploy
 
 run-app-makefile:
 #	cd app && make init
@@ -24,7 +25,7 @@ file-ready-create:
 commit-build:
 	git add app/build && git commit -m "Build"
 
-build:
+build-dev:
 	docker-compose run --rm app-node-cli npm run dev
 	sudo chown ${USER}:root app/build/ -R
 
