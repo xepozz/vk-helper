@@ -20,7 +20,7 @@ class Home extends React.Component {
 
                 <Group title="Действия">
                     <Div>
-                        <Button size="xl" level="2" onClick={this.props.go} data-to="groups-list">
+                        <Button size="xl" level="2" onClick={this.props.go} data-to="group-list-panel">
                             Группы, от которых можно отписаться
                         </Button>
                     </Div>
