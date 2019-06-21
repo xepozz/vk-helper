@@ -26186,7 +26186,7 @@ function (_React$Component) {
         popout: this.state.popout,
         activePanel: this.props.id
       }, _react.default.createElement(_vkui.Panel, {
-        id: this.props.id
+        id: "group-list-panel"
       }, _react.default.createElement(_vkui.PanelHeader, {
         left: _react.default.createElement(_vkui.HeaderButton, {
           onClick: this.props.go,
