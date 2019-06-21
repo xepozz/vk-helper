@@ -25863,6 +25863,7 @@ function (_React$Component) {
     };
 
     _this.state = {
+      activeView: 'main',
       activePanel: 'home',
       user: null,
       groups: [],
@@ -26184,8 +26185,9 @@ function (_React$Component) {
     value: function render() {
       var table = this.createTable();
       return _react.default.createElement(_View.default, {
+        id: this.props.id,
         popout: this.state.popout,
-        activePanel: this.props.id
+        activePanel: "group-list-panel"
       }, _react.default.createElement(_vkui.Panel, {
         id: "group-list-panel"
       }, _react.default.createElement(_vkui.PanelHeader, {
