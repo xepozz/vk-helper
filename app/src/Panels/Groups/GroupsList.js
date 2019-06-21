@@ -14,6 +14,7 @@ import Div from "@vkontakte/vkui/src/components/Div/Div";
 import Button from "@vkontakte/vkui/src/components/Button/Button";
 import {FormLayout} from "@vkontakte/vkui/src";
 import ScreenSpinner from "@vkontakte/vkui/src/components/ScreenSpinner/ScreenSpinner";
+import Alert from "@vkontakte/vkui/src/components/Alert/Alert";
 
 const osname = platform();
 
