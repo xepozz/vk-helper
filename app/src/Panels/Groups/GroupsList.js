@@ -25,13 +25,12 @@ class GroupsList extends React.Component {
 
         this.state = {
             popout: null,
-            activePanel: 'home',
+            activePanel: 'groups-list-panel',
             groupsList: [],
             invalidGroups: [],
             selectedGroups: {}
         };
         this.onChange = this.onChange.bind(this);
-        this.closePopout = this.closePopout.bind(this);
         this.setSpinner = this.setSpinner.bind(this);
     }
 
@@ -186,7 +185,8 @@ class GroupsList extends React.Component {
         const table = this.createTable();
 
         return (
-            <View id={this.props.id} popout={this.state.popout} activePanel="groups-list-panel">
+            <View id={this.props.id} popout={this.state.popout}
+                  activePanel={this.state.activePanel}>
                 <Panel id="groups-list-panel">
                     <PanelHeader
                         left={<HeaderButton onClick={this.props.go} data-to="home">
