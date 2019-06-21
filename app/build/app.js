@@ -16210,6 +16210,7 @@ function (_React$Component) {
         for (var i = 0; i < groupCount; ++i) {
           var group = groups[i];
           list.push(_react.default.createElement(_Cell.default, {
+            key: i,
             before: _react.default.createElement(_users.default, null)
           }, _react.default.createElement(_Link.default, {
             href: "/group/{group.id}"
@@ -16238,10 +16239,11 @@ function (_React$Component) {
         switch (e.detail.type) {
           case 'VKWebAppCallAPIMethodResult':
             console.log('VKWebAppCallAPIMethodResult');
-            console.log(e.detail.data);
+            var response = e.detail.data.response;
+            console.log(response, response.items);
 
             _this2.setState({
-              groupsList: e.detail.data
+              groupsList: response.items
             });
 
             break;

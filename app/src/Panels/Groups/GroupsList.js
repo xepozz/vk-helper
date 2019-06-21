@@ -27,8 +27,9 @@ class GroupsList extends React.Component {
             switch (e.detail.type) {
                 case 'VKWebAppCallAPIMethodResult':
                     console.log('VKWebAppCallAPIMethodResult');
-                    console.log(e.detail.data);
-                    this.setState({groupsList: e.detail.data});
+                    const response = e.detail.data.response;
+                    console.log(response, response.items);
+                    this.setState({groupsList: response.items});
                     break;
                 default:
                     console.log(e.detail.type);
