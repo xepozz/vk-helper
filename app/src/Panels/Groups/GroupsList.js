@@ -187,7 +187,7 @@ class GroupsList extends React.Component {
 
         return (
             <View popout={this.state.popout} activePanel={this.props.id}>
-                <Panel id={this.props.id}>
+                <Panel id="group-list-panel">
                     <PanelHeader
                         left={<HeaderButton onClick={this.props.go} data-to="home">
                             {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
