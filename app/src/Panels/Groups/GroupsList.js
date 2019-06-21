@@ -55,13 +55,41 @@ class GroupsList extends React.Component {
 
     static filterInvalidGroups(groupsList) {
         return groupsList.filter((group, index) => {
+            console.log(group.name);
             const isDeactivated = 'deactivated' in group;
-            const isUserBanned = 'ban_info' in group;
-            const hasNoPhoto = !('has_photo' in group);
-            const isHiddenFromFeed = 'is_hidden_from_feed' in group;
-            const isMessagesBlocked = 'is_messages_blocked' in group;
+            isDeactivated && console.log('isDeactivated');
 
-            return isDeactivated || isUserBanned || hasNoPhoto || isHiddenFromFeed || isMessagesBlocked;
+            const isUserBanned = 'ban_info' in group;
+            isUserBanned && console.log('isUserBanned');
+
+            const hasNoPhoto = 'has_photo' in group && parseInt(group.has_photo) === 0;
+            hasNoPhoto && console.log('hasNoPhoto');
+
+            const isHiddenFromFeed = 'is_hidden_from_feed' in group;
+            isHiddenFromFeed && console.log('isHiddenFromFeed');
+
+            const isMessagesBlocked = 'is_messages_blocked' in group;
+            isMessagesBlocked && console.log('isMessagesBlocked');
+
+            const statuses = [
+                0, // — не является участником;
+                // 1, // — является участником;
+                2, // — не уверен, что посетит мероприятие;
+                3, // — отклонил приглашение;
+                4, // — запрос на вступление отправлен;
+                // 5, // — приглашен.
+            ];
+            const invalidMemberStatus = 'member_status' in group && statuses.includes(group.member_status);
+            invalidMemberStatus && console.log('invalidMemberStatus');
+
+            const smallMembersCount = 'members_count' in group && group.members_count < 5;
+            smallMembersCount && console.log('smallMembersCount');
+
+            const isEventPassed = 'finish_date' in group && group.finish_date < (new Date()).getTime();
+            isEventPassed && console.log('isEventPassed');
+
+            return isDeactivated || isUserBanned || hasNoPhoto || isHiddenFromFeed || isMessagesBlocked ||
+                isEventPassed || invalidMemberStatus || smallMembersCount;
         });
     }
 
