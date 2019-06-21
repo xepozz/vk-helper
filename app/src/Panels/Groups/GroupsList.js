@@ -19,8 +19,6 @@ class GroupsList extends React.Component {
         this.state = {
             activePanel: 'home',
             groupsList: [],
-            accessToken: null,
-            user: null
         };
     }
 
@@ -40,9 +38,9 @@ class GroupsList extends React.Component {
             "method": "groups.get",
             "request_id": Math.random(),
             "params": {
-                "user_ids": this.state.user.id,
+                "user_ids": this.props.user.id,
                 "v": process.env.VK_API_VERSION,
-                "access_token": this.state.accessToken
+                "access_token": this.props.accessToken
             }
         });
     }
@@ -93,7 +91,7 @@ GroupsList.propTypes = {
     id: PropTypes.string.isRequired,
     go: PropTypes.func.isRequired,
     groupsList: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.number.unique,
         name: PropTypes.string,
     })),
     accessToken: PropTypes.string.isRequired,
