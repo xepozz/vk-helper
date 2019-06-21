@@ -5595,25 +5595,6 @@ exports.push([module.i, "@charset \"UTF-8\";\n/* Файл, который сод
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/lib/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/Panels/Persik.css":
-/*!******************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--5-1!./node_modules/postcss-loader/lib??ref--5-2!./node_modules/sass-loader/lib/loader.js??ref--5-3!./src/Panels/Persik.css ***!
-  \******************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(true);
-// imports
-
-
-// module
-exports.push([module.i, ".Persik {\n  display: block;\n  width: 30%;\n  max-width: 240px;\n  margin: 20px auto; }\n", "", {"version":3,"sources":["/var/www/app/src/Panels/Persik.css"],"names":[],"mappings":"AAAA;EACE,eAAc;EACd,WAAU;EACV,iBAAgB;EAChB,kBAAiB,EAClB","file":"Persik.css","sourcesContent":[".Persik {\n  display: block;\n  width: 30%;\n  max-width: 240px;\n  margin: 20px auto;\n}\n"],"sourceRoot":""}]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/lib/css-base.js":
 /*!*************************************************!*\
   !*** ./node_modules/css-loader/lib/css-base.js ***!
@@ -5867,6 +5848,227 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
   }
 
   return to;
+};
+
+/***/ }),
+
+/***/ "./node_modules/process/browser.js":
+/*!*****************************************!*\
+  !*** ./node_modules/process/browser.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// shim for using process in browser
+var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+  throw new Error('setTimeout has not been defined');
+}
+
+function defaultClearTimeout() {
+  throw new Error('clearTimeout has not been defined');
+}
+
+(function () {
+  try {
+    if (typeof setTimeout === 'function') {
+      cachedSetTimeout = setTimeout;
+    } else {
+      cachedSetTimeout = defaultSetTimout;
+    }
+  } catch (e) {
+    cachedSetTimeout = defaultSetTimout;
+  }
+
+  try {
+    if (typeof clearTimeout === 'function') {
+      cachedClearTimeout = clearTimeout;
+    } else {
+      cachedClearTimeout = defaultClearTimeout;
+    }
+  } catch (e) {
+    cachedClearTimeout = defaultClearTimeout;
+  }
+})();
+
+function runTimeout(fun) {
+  if (cachedSetTimeout === setTimeout) {
+    //normal enviroments in sane situations
+    return setTimeout(fun, 0);
+  } // if setTimeout wasn't available but was latter defined
+
+
+  if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+    cachedSetTimeout = setTimeout;
+    return setTimeout(fun, 0);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedSetTimeout(fun, 0);
+  } catch (e) {
+    try {
+      // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+      return cachedSetTimeout.call(null, fun, 0);
+    } catch (e) {
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+      return cachedSetTimeout.call(this, fun, 0);
+    }
+  }
+}
+
+function runClearTimeout(marker) {
+  if (cachedClearTimeout === clearTimeout) {
+    //normal enviroments in sane situations
+    return clearTimeout(marker);
+  } // if clearTimeout wasn't available but was latter defined
+
+
+  if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+    cachedClearTimeout = clearTimeout;
+    return clearTimeout(marker);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedClearTimeout(marker);
+  } catch (e) {
+    try {
+      // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+      return cachedClearTimeout.call(null, marker);
+    } catch (e) {
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+      // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+      return cachedClearTimeout.call(this, marker);
+    }
+  }
+}
+
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+  if (!draining || !currentQueue) {
+    return;
+  }
+
+  draining = false;
+
+  if (currentQueue.length) {
+    queue = currentQueue.concat(queue);
+  } else {
+    queueIndex = -1;
+  }
+
+  if (queue.length) {
+    drainQueue();
+  }
+}
+
+function drainQueue() {
+  if (draining) {
+    return;
+  }
+
+  var timeout = runTimeout(cleanUpNextTick);
+  draining = true;
+  var len = queue.length;
+
+  while (len) {
+    currentQueue = queue;
+    queue = [];
+
+    while (++queueIndex < len) {
+      if (currentQueue) {
+        currentQueue[queueIndex].run();
+      }
+    }
+
+    queueIndex = -1;
+    len = queue.length;
+  }
+
+  currentQueue = null;
+  draining = false;
+  runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+  var args = new Array(arguments.length - 1);
+
+  if (arguments.length > 1) {
+    for (var i = 1; i < arguments.length; i++) {
+      args[i - 1] = arguments[i];
+    }
+  }
+
+  queue.push(new Item(fun, args));
+
+  if (queue.length === 1 && !draining) {
+    runTimeout(drainQueue);
+  }
+}; // v8 likes predictible objects
+
+
+function Item(fun, array) {
+  this.fun = fun;
+  this.array = array;
+}
+
+Item.prototype.run = function () {
+  this.fun.apply(null, this.array);
+};
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) {
+  return [];
+};
+
+process.binding = function (name) {
+  throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () {
+  return '/';
+};
+
+process.chdir = function (dir) {
+  throw new Error('process.chdir is not supported');
+};
+
+process.umask = function () {
+  return 0;
 };
 
 /***/ }),
@@ -15791,7 +15993,7 @@ module.exports = function(module) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -15807,8 +16009,6 @@ var _vkui = __webpack_require__(/*! @vkontakte/vkui */ "./node_modules/@vkontakt
 __webpack_require__(/*! @vkontakte/vkui/dist/vkui.css */ "./node_modules/@vkontakte/vkui/dist/vkui.css");
 
 var _Home = _interopRequireDefault(__webpack_require__(/*! ./Panels/Home */ "./src/Panels/Home.js"));
-
-var _Persik = _interopRequireDefault(__webpack_require__(/*! ./Panels/Persik */ "./src/Panels/Persik.js"));
 
 var _GroupsList = _interopRequireDefault(__webpack_require__(/*! ./Panels/Groups/GroupsList */ "./src/Panels/Groups/GroupsList.js"));
 
@@ -15853,7 +16053,8 @@ function (_React$Component) {
     _this.state = {
       activePanel: 'home',
       fetchedUser: null,
-      groups: []
+      groups: [],
+      accessToken: null
     };
     return _this;
   }
@@ -15872,9 +16073,29 @@ function (_React$Component) {
 
             break;
 
+          case 'VKWebAppAccessTokenReceived':
+            console.log('VKWebAppAccessTokenReceived');
+            console.log(e.detail, e.detail.data, e.detail.data.access_token);
+
+            _this2.setState({
+              accessToken: e.detail.data.access_token
+            });
+
+            break;
+
+          case 'VKWebAppAccessTokenFailed':
+            console.log('VKWebAppAccessTokenFailed');
+            console.log(e.detail, e.detail.data);
+            break;
+
           default:
             console.log(e.detail.type);
         }
+      });
+
+      _vkuiConnect.default.send("VKWebAppGetAuthToken", {
+        app_id: process.env.VK_APP_ID,
+        scope: process.env.AUTH_SCOPES
       });
 
       _vkuiConnect.default.send('VKWebAppGetUserInfo', {});
@@ -15887,9 +16108,6 @@ function (_React$Component) {
       }, _react.default.createElement(_Home.default, {
         id: "home",
         fetchedUser: this.state.fetchedUser,
-        go: this.go
-      }), _react.default.createElement(_Persik.default, {
-        id: "persik",
         go: this.go
       }), _react.default.createElement(_GroupsList.default, {
         id: "groups-list",
@@ -15904,17 +16122,7 @@ function (_React$Component) {
 
 var _default = App;
 exports.default = _default;
-
-/***/ }),
-
-/***/ "./src/Assets/img/persik.png":
-/*!***********************************!*\
-  !*** ./src/Assets/img/persik.png ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "assets/4e1ec8403d903dc514271d7328fbdeb3.png";
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -15952,6 +16160,10 @@ var _List = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/c
 var _Cell = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/Cell/Cell */ "./node_modules/@vkontakte/vkui/src/components/Cell/Cell.js"));
 
 var _Link = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/Link/Link */ "./node_modules/@vkontakte/vkui/src/components/Link/Link.js"));
+
+var _vkuiConnect = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui-connect */ "./node_modules/@vkontakte/vkui-connect/index.js"));
+
+var _App = _interopRequireDefault(__webpack_require__(/*! ./../../App */ "./src/App.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16010,13 +16222,35 @@ function (_React$Component) {
 
     _this.state = {
       activePanel: 'home',
-      fetchedUser: null,
-      groupsList: []
+      groupsList: [],
+      token: _App.default.props.accessToken
     };
     return _this;
   }
 
   _createClass(GroupsList, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _vkuiConnect.default.subscribe(function (e) {
+        switch (e.detail.type) {
+          case 'VKWebAppCallAPIMethodResult':
+            console.log('VKWebAppCallAPIMethodResult');
+            console.log(e.detail.data);
+
+            _this2.setState({
+              groupsList: e.detail.data
+            });
+
+            break;
+
+          default:
+            console.log(e.detail.type);
+        }
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react.default.createElement(_vkui.Panel, {
@@ -16094,89 +16328,6 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ "./src/Panels/Persik.css":
-/*!*******************************!*\
-  !*** ./src/Panels/Persik.css ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../node_modules/css-loader??ref--5-1!../../node_modules/postcss-loader/lib??ref--5-2!../../node_modules/sass-loader/lib/loader.js??ref--5-3!./Persik.css */ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/lib/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/Panels/Persik.css");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./src/Panels/Persik.js":
-/*!******************************!*\
-  !*** ./src/Panels/Persik.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
-
-var _vkui = __webpack_require__(/*! @vkontakte/vkui */ "./node_modules/@vkontakte/vkui/dist/vkui.js");
-
-var _persik = _interopRequireDefault(__webpack_require__(/*! ../Assets/img/persik.png */ "./src/Assets/img/persik.png"));
-
-__webpack_require__(/*! ./Persik.css */ "./src/Panels/Persik.css");
-
-var _chevron_back = _interopRequireDefault(__webpack_require__(/*! @vkontakte/icons/dist/28/chevron_back */ "./node_modules/@vkontakte/icons/dist/28/chevron_back.js"));
-
-var _back = _interopRequireDefault(__webpack_require__(/*! @vkontakte/icons/dist/24/back */ "./node_modules/@vkontakte/icons/dist/24/back.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var osname = (0, _vkui.platform)();
-
-var Persik = function Persik(props) {
-  return _react.default.createElement(_vkui.Panel, {
-    id: props.id
-  }, _react.default.createElement(_vkui.PanelHeader, {
-    left: _react.default.createElement(_vkui.HeaderButton, {
-      onClick: props.go,
-      "data-to": "home"
-    }, osname === _vkui.IOS ? _react.default.createElement(_chevron_back.default, null) : _react.default.createElement(_back.default, null))
-  }, "Persik"), _react.default.createElement("img", {
-    className: "Persik",
-    src: _persik.default,
-    alt: "Persik The Cat"
-  }));
-};
-
-var _default = Persik;
-exports.default = _default;
-
-/***/ }),
-
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -16210,7 +16361,15 @@ _vkuiConnect.default.send('VKWebAppInit', {}); // Если вы хотите, ч
 // registerServiceWorker();
 
 
-_reactDom.default.render(_react.default.createElement(_App.default, null), document.getElementById('root'));
+VK.init(function () {
+  console.log('success init sdk');
+}, function () {
+  console.log('fail init sdk');
+}, '5.95');
+
+_reactDom.default.render(_react.default.createElement(_App.default, {
+  vkSdk: VK
+}), document.getElementById('root'));
 
 /***/ })
 
