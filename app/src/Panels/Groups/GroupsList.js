@@ -23,14 +23,14 @@ class GroupsList extends React.Component {
         super(props);
 
         this.state = {
-            popout: <ScreenSpinner/>,
+            popout: null,
             activePanel: 'home',
             groupsList: [],
             invalidGroups: [],
             selectedGroups: {}
         };
-        // this.setState({ popout:  });
         this.onChange = this.onChange.bind(this);
+        this.closePopout = this.closePopout.bind(this);
     }
 
     componentDidMount() {
@@ -50,6 +50,7 @@ class GroupsList extends React.Component {
                     console.log(e.detail.type);
             }
         });
+        this.setState({popout: <ScreenSpinner/>});
         connect.send("VKWebAppCallAPIMethod", {
             "method": "groups.get",
             "request_id": Math.random(),
@@ -144,6 +145,10 @@ class GroupsList extends React.Component {
         return this.state.selectedGroups;
     }
 
+    closePopout() {
+        this.setState({popout: null});
+    }
+
     createTable = () => {
         const list = [];
         const groups = this.state.invalidGroups;
@@ -172,10 +177,6 @@ class GroupsList extends React.Component {
 
         return list
     };
-
-    closePopout() {
-        this.setState({popout: null});
-    }
 
     render() {
         const table = this.createTable();
