@@ -23,9 +23,10 @@ class GroupsList extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log('GroupsListView');
         this.state = {
-            popout: null,
             activePanel: 'groups-list-panel',
+            popout: null,
             groupsList: [],
             invalidGroups: [],
             selectedGroups: {}
@@ -48,8 +49,11 @@ class GroupsList extends React.Component {
                     this.setState({invalidGroups: invalidGroups});
                     this.setSpinner(false);
                     break;
+                case 'VKWebAppCallAPIMethodFailed':
+                    this.setSpinner(false);
+                    break;
                 default:
-                    console.log(e.detail.type);
+                    console.log(e.detail.type, e.detail);
             }
         });
         this.setSpinner(true);
@@ -58,7 +62,7 @@ class GroupsList extends React.Component {
             "request_id": Math.random(),
             "params": {
                 "fields": "activity,is_hidden_from_feed,is_messages_blocked,member_status,verified,deactivated,ban_info,has_photo",
-                "user_ids": this.props.user.id,
+                "user_ids": this.props.user ? this.props.user : process.env.VK_DEVELOPER_ID,
                 "extended": true,
                 "v": process.env.VK_API_VERSION,
                 "access_token": this.props.accessToken
@@ -174,7 +178,7 @@ class GroupsList extends React.Component {
             )
         } else {
             list.push(
-                <Cell>Групп не обнаружено</Cell>
+                <Cell key="none">Групп не обнаружено</Cell>
             );
         }
 
@@ -182,10 +186,10 @@ class GroupsList extends React.Component {
     };
 
     render() {
-        const table = this.createTable();
 
         return (
-            <View id={this.props.id} popout={this.state.popout}
+            <View id={this.props.id}
+                  popout={this.state.popout}
                   activePanel={this.state.activePanel}>
                 <Panel id="groups-list-panel">
                     <PanelHeader
@@ -197,7 +201,7 @@ class GroupsList extends React.Component {
                     </PanelHeader>
                     <Group>
                         <List>
-                            {table}
+                            {this.createTable()}
                         </List>
                     </Group>
                 </Panel>

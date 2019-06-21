@@ -2,20 +2,20 @@ import React from 'react';
 import connect from '@vkontakte/vkui-connect';
 import {View} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-
 import Home from './Panels/Home';
 import GroupsListView from "./Panels/Groups/GroupsList";
 import Root from "@vkontakte/vkui/src/components/Root/Root";
+import HomeView from "./Pages/Home/HomeView";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log('App');
         this.state = {
-            activeView: 'main-view',
-            activePanel: 'home',
+            activeView: 'home-view',
+            activePanel: 'home-index-panel',
             user: null,
-            groups: [],
             accessToken: null
         };
     }
@@ -48,22 +48,33 @@ class App extends React.Component {
     }
 
     go = (e) => {
-        this.setState({activePanel: e.currentTarget.dataset.to})
+        const dataset = e.currentTarget.dataset;
+        const state = dataset.toPanel
+            ? {activePanel: dataset.toPanel}
+            : dataset.toView
+                ? {activeView: dataset.toView}
+                : null;
+
+        console.log('go ', state);
+        if (state !== null) {
+            this.setState(state)
+        }
     };
 
     render() {
         return (
             <Root activeView={this.state.activeView}>
-                <View id="main-view"
-                      activePanel={this.state.activePanel}>
-                    <Home id="home" fetchedUser={this.state.user} go={this.go}/>
-                </View>
+                <HomeView
+                    id="home-view"
+                    activePanel={this.state.activePanel}
+                    go={this.go}
+                />
+
                 <GroupsListView id="groups-list-view"
                                 go={this.go}
-                                groups={this.state.groups}
                                 accessToken={this.state.accessToken}
                                 user={this.state.user}
-                                />
+                />
             </Root>
         );
     }
