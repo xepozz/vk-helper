@@ -16224,9 +16224,7 @@ function (_React$Component) {
 
     _this.state = {
       activePanel: 'home',
-      groupsList: [],
-      accessToken: null,
-      user: null
+      groupsList: []
     };
     return _this;
   }
@@ -16257,9 +16255,9 @@ function (_React$Component) {
         "method": "groups.get",
         "request_id": Math.random(),
         "params": {
-          "user_ids": this.state.user.id,
+          "user_ids": this.props.user.id,
           "v": "5.95",
-          "access_token": this.state.accessToken
+          "access_token": this.props.accessToken
         }
       });
     }
