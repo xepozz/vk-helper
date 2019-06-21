@@ -13,6 +13,7 @@ import connect from "@vkontakte/vkui-connect";
 import Div from "@vkontakte/vkui/src/components/Div/Div";
 import Button from "@vkontakte/vkui/src/components/Button/Button";
 import {FormLayout} from "@vkontakte/vkui/src";
+import ScreenSpinner from "@vkontakte/vkui/src/components/ScreenSpinner/ScreenSpinner";
 
 const osname = platform();
 
@@ -21,10 +22,13 @@ class GroupsList extends React.Component {
         super(props);
 
         this.state = {
+            popout: <ScreenSpinner/>,
             activePanel: 'home',
             groupsList: [],
             invalidGroups: [],
+            selectedGroups: {}
         };
+        // this.setState({ popout:  });
         this.onChange = this.onChange.bind(this);
     }
 
@@ -100,7 +104,7 @@ class GroupsList extends React.Component {
     }
 
     unsubscribe = () => {
-        const items = this.state.items;
+        const items = this.getSelectedGroups();
         const activeItems = Object.keys(items).filter((id) => !!(items[id]));
         // groups that needs to unsubscribe
         console.log(activeItems)
@@ -109,9 +113,13 @@ class GroupsList extends React.Component {
     onChange(e) {
         const control = e.currentTarget;
         const dataset = control.dataset;
-        const items = this.state.items;
+        const items = this.getSelectedGroups();
         items[dataset.groupId] = control.checked;
         this.setState({items: items});
+    }
+
+    getSelectedGroups() {
+        return this.state.selectedGroups;
     }
 
     createTable = () => {
@@ -144,6 +152,9 @@ class GroupsList extends React.Component {
     };
 
     render() {
+        const table = this.createTable();
+        this.setState({popout: null});
+
         return (
             <Panel id={this.props.id}>
                 <PanelHeader
@@ -155,7 +166,7 @@ class GroupsList extends React.Component {
                 </PanelHeader>
                 <Group>
                     <List>
-                        {this.createTable()}
+                        {table}
                     </List>
                 </Group>
             </Panel>
