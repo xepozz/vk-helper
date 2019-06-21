@@ -16258,6 +16258,7 @@ function (_React$Component) {
         "request_id": Math.random(),
         "params": {
           "user_ids": this.props.user.id,
+          "extended": true,
           "v": "5.95",
           "access_token": this.props.accessToken
         }
