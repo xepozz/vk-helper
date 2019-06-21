@@ -19,6 +19,7 @@ class GroupsList extends React.Component {
         this.state = {
             activePanel: 'home',
             groupsList: [],
+            invalidGroups: [],
         };
     }
 
@@ -28,8 +29,12 @@ class GroupsList extends React.Component {
                 case 'VKWebAppCallAPIMethodResult':
                     console.log('VKWebAppCallAPIMethodResult');
                     const response = e.detail.data.response;
-                    console.log(response, response.items);
-                    this.setState({groupsList: response.items});
+                    const groupsList = response.items;
+                    console.log(response, groupsList);
+                    this.setState({groupsList: groupsList});
+                    const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
+                    console.log(invalidGroups);
+                    this.setState({invalidGroups: invalidGroups});
                     break;
                 default:
                     console.log(e.detail.type);
@@ -39,6 +44,7 @@ class GroupsList extends React.Component {
             "method": "groups.get",
             "request_id": Math.random(),
             "params": {
+                "fields": "activity,is_hidden_from_feed,is_messages_blocked,member_status,verified,deactivated,ban_info,has_photo",
                 "user_ids": this.props.user.id,
                 "extended": true,
                 "v": process.env.VK_API_VERSION,
@@ -47,9 +53,21 @@ class GroupsList extends React.Component {
         });
     }
 
+    static filterInvalidGroups(groupsList) {
+        return groupsList.filter((group, index) => {
+            const isDeactivated = 'deactivated' in group;
+            const isUserBanned = 'ban_info' in group;
+            const hasNoPhoto = !('has_photo' in group);
+            const isHiddenFromFeed = 'is_hidden_from_feed' in group;
+            const isMessagesBlocked = 'is_messages_blocked' in group;
+
+            return isDeactivated || isUserBanned || hasNoPhoto || isHiddenFromFeed || isMessagesBlocked;
+        });
+    }
+
     createTable = () => {
         const list = [];
-        const groups = this.state.groupsList;
+        const groups = this.state.invalidGroups;
         const groupCount = groups.length;
         if (groupCount > 0) {
             for (let i = 0; i < groupCount; ++i) {
