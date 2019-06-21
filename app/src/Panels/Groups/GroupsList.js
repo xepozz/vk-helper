@@ -53,7 +53,7 @@ class GroupsList extends React.Component {
             for (let i = 0; i < groupCount; ++i) {
                 let group = groups[i];
                 list.push(
-                    <Cell before={<Icon24Users/>}>
+                    <Cell key={i} before={<Icon24Users/>}>
                         <Link href="/group/{group.id}">{group.name}</Link>
                     </Cell>
                 );
