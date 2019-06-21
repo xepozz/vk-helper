@@ -65,11 +65,11 @@ class GroupsList extends React.Component {
             const hasNoPhoto = 'has_photo' in group && parseInt(group.has_photo) === 0;
             hasNoPhoto && console.log('hasNoPhoto');
 
-            const isHiddenFromFeed = 'is_hidden_from_feed' in group && parseInt(group.has_photo) === 1;
+            const isHiddenFromFeed = 'is_hidden_from_feed' in group && parseInt(group.is_hidden_from_feed) === 1;
             isHiddenFromFeed && console.log('isHiddenFromFeed');
 
             // этот флаг "1" не только тогда, когда тебя кинули в чс, но и тогда, когда ты "не разрешил сообщения"
-            const isMessagesBlocked = false;//'is_messages_blocked' in group && parseInt(group.has_photo) === 1;
+            const isMessagesBlocked = false;//'is_messages_blocked' in group && parseInt(group.is_messages_blocked) === 1;
             isMessagesBlocked && console.log('isMessagesBlocked');
 
             const statuses = [
