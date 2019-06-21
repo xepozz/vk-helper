@@ -4,6 +4,7 @@ import {Panel, PanelHeader, HeaderButton, platform, IOS, Avatar, ListItem} from 
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Users from '@vkontakte/icons/dist/24/users';
+import Icon24Delete from '@vkontakte/icons/dist/24/delete';
 import Group from "@vkontakte/vkui/src/components/Group/Group";
 import List from "@vkontakte/vkui/src/components/List/List";
 import Cell from "@vkontakte/vkui/src/components/Cell/Cell";
@@ -11,6 +12,7 @@ import Link from "@vkontakte/vkui/src/components/Link/Link";
 import connect from "@vkontakte/vkui-connect";
 import Div from "@vkontakte/vkui/src/components/Div/Div";
 import Button from "@vkontakte/vkui/src/components/Button/Button";
+import {FormLayout} from "@vkontakte/vkui/src";
 
 const osname = platform();
 
@@ -23,6 +25,7 @@ class GroupsList extends React.Component {
             groupsList: [],
             invalidGroups: [],
         };
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
@@ -96,6 +99,21 @@ class GroupsList extends React.Component {
         });
     }
 
+    unsubscribe = () => {
+        const items = this.state.items;
+        const activeItems = Object.keys(items).filter((id) => !!(items[id]));
+        // groups that needs to unsubscribe
+        console.log(activeItems)
+    };
+
+    onChange(e) {
+        const control = e.currentTarget;
+        const dataset = control.dataset;
+        const items = this.state.items;
+        items[dataset.groupId] = control.checked;
+        this.setState({items: items});
+    }
+
     createTable = () => {
         const list = [];
         const groups = this.state.invalidGroups;
@@ -104,7 +122,7 @@ class GroupsList extends React.Component {
             for (let i = 0; i < groupCount; ++i) {
                 let group = groups[i];
                 list.push(
-                    <Cell key={i} selectable
+                    <Cell key={i} selectable data-group-id={group.id} onChange={this.onChange}
                           before={group.photo_200 ? <Avatar src={group.photo_200}/> : <Icon24Users/>}>
                         <Link href={"https://vk.com/group" + group.id} target="_blank">{group.name}</Link>
                     </Cell>
@@ -112,7 +130,8 @@ class GroupsList extends React.Component {
             }
             list.push(
                 <Div>
-                    <Button size="xl" level="secondary">Отписаться</Button>
+                    <Button size="xl" level="primary" onClick={this.unsubscribe}
+                            before={<Icon24Delete/>}>Отписаться</Button>
                 </Div>
             )
         } else {
