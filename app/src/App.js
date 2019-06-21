@@ -37,7 +37,8 @@ class App extends React.Component {
                     console.log(e.detail.type);
             }
         });
-        connect.send("VKWebAppGetAuthToken", {app_id: process.env.VK_APP_ID, scope: process.env.AUTH_SCOPES});
+        console.log(process.env, process.env.AUTH_SCOPES);
+        connect.send("VKWebAppGetAuthToken", {"app_id": process.env.VK_APP_ID, "scope": process.env.AUTH_SCOPES});
         connect.send('VKWebAppGetUserInfo', {});
     }
 
