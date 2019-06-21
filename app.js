@@ -25863,7 +25863,7 @@ function (_React$Component) {
     };
 
     _this.state = {
-      activeView: 'main',
+      activeView: 'main-view',
       activePanel: 'home',
       user: null,
       groups: [],
