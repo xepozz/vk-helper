@@ -96,7 +96,7 @@ class GroupsList extends React.Component {
                         {osname === IOS ? <Icon28ChevronBack/> : <Icon24Back/>}
                     </HeaderButton>}
                 >
-                    Groups list
+                    Сообщества, от которых можно отписаться
                 </PanelHeader>
                 <Group>
                     <List>
