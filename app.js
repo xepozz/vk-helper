@@ -16093,11 +16093,11 @@ function (_React$Component) {
         }
       });
 
-      console.log(process.env, process.env.AUTH_SCOPES);
+      console.log(process.env, "friends,groups,status");
 
       _vkuiConnect.default.send("VKWebAppGetAuthToken", {
-        "app_id": process.env.VK_APP_ID,
-        "scope": process.env.AUTH_SCOPES
+        "app_id": "7026981",
+        "scope": "friends,groups,status"
       });
 
       _vkuiConnect.default.send('VKWebAppGetUserInfo', {});
