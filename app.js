@@ -16093,9 +16093,11 @@ function (_React$Component) {
         }
       });
 
+      console.log(process.env, process.env.AUTH_SCOPES);
+
       _vkuiConnect.default.send("VKWebAppGetAuthToken", {
-        app_id: process.env.VK_APP_ID,
-        scope: process.env.AUTH_SCOPES
+        "app_id": process.env.VK_APP_ID,
+        "scope": process.env.AUTH_SCOPES
       });
 
       _vkuiConnect.default.send('VKWebAppGetUserInfo', {});
@@ -16361,15 +16363,7 @@ _vkuiConnect.default.send('VKWebAppInit', {}); // Если вы хотите, ч
 // registerServiceWorker();
 
 
-VK.init(function () {
-  console.log('success init sdk');
-}, function () {
-  console.log('fail init sdk');
-}, '5.95');
-
-_reactDom.default.render(_react.default.createElement(_App.default, {
-  vkSdk: VK
-}), document.getElementById('root'));
+_reactDom.default.render(_react.default.createElement(_App.default, null), document.getElementById('root'));
 
 /***/ })
 
