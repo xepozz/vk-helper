@@ -24,6 +24,10 @@ build:
 	docker-compose run --rm app-node-cli npm run dev
 	sudo chown ${USER}:root app/build/ -R
 
+build-prod:
+	docker-compose run --rm app-node-cli npm run prod
+	sudo chown ${USER}:root app/build/ -R
+
 watch:
 	docker-compose run --rm app-node-cli npm run watch
 	sudo chown ${USER}:root app/build/ -R
