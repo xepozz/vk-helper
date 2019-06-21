@@ -75,7 +75,7 @@ class GroupsList extends React.Component {
                 list.push(
                     <Cell key={i}
                           before={group.photo_200 ? <Avatar src={group.photo_200}/> : <Icon24Users/>}>
-                        <Link href="/group/{group.id}">{group.name}</Link>
+                        <Link href={"https://vk.com/group" + group.id} target="_blank">{group.name}</Link>
                     </Cell>
                 );
             }
