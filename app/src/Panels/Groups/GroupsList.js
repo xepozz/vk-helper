@@ -9,6 +9,8 @@ import List from "@vkontakte/vkui/src/components/List/List";
 import Cell from "@vkontakte/vkui/src/components/Cell/Cell";
 import Link from "@vkontakte/vkui/src/components/Link/Link";
 import connect from "@vkontakte/vkui-connect";
+import Div from "@vkontakte/vkui/src/components/Div/Div";
+import Button from "@vkontakte/vkui/src/components/Button/Button";
 
 const osname = platform();
 
@@ -102,12 +104,17 @@ class GroupsList extends React.Component {
             for (let i = 0; i < groupCount; ++i) {
                 let group = groups[i];
                 list.push(
-                    <Cell key={i}
+                    <Cell key={i} selectable
                           before={group.photo_200 ? <Avatar src={group.photo_200}/> : <Icon24Users/>}>
                         <Link href={"https://vk.com/group" + group.id} target="_blank">{group.name}</Link>
                     </Cell>
                 );
             }
+            list.push(
+                <Div>
+                    <Button size="xl" level="secondary">Отписаться</Button>
+                </Div>
+            )
         } else {
             list.push(
                 <Cell>Групп не обнаружено</Cell>
