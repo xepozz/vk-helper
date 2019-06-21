@@ -6,7 +6,7 @@ const Home = ({ id, go, fetchedUser }) => (
 	<Panel id={id}>
 		<PanelHeader>VK Helper</PanelHeader>
 		{fetchedUser &&
-		<Group title="User Data Fetched with VK Connect">
+		<Group title="Информация о текущем пользователе">
 			<ListItem
 				before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
 				description={fetchedUser.city && fetchedUser.city.title ? fetchedUser.city.title : ''}
@@ -15,15 +15,10 @@ const Home = ({ id, go, fetchedUser }) => (
 			</ListItem>
 		</Group>}
 
-		<Group title="Navigation Example">
-			<Div>
-				<Button size="xl" level="2" onClick={go} data-to="persik">
-					Show me the Persik, please
-				</Button>
-			</Div>
+		<Group title="Действия">
 			<Div>
 				<Button size="xl" level="2" onClick={go} data-to="groups-list">
-					Show list groups
+					Группы, от которых можно отписаться
 				</Button>
 			</Div>
 		</Group>
