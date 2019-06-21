@@ -25822,6 +25822,8 @@ var _Home = _interopRequireDefault(__webpack_require__(/*! ./Panels/Home */ "./s
 
 var _GroupsList = _interopRequireDefault(__webpack_require__(/*! ./Panels/Groups/GroupsList */ "./src/Panels/Groups/GroupsList.js"));
 
+var _Root = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/Root/Root */ "./node_modules/@vkontakte/vkui/src/components/Root/Root.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -25915,13 +25917,15 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_vkui.View, {
+      return _react.default.createElement(_Root.default, {
+        activeView: this.state.activeView
+      }, _react.default.createElement(_vkui.View, {
         activePanel: this.state.activePanel
       }, _react.default.createElement(_Home.default, {
         id: "home",
         fetchedUser: this.state.user,
         go: this.go
-      }), _react.default.createElement(_GroupsList.default, {
+      })), _react.default.createElement(_GroupsList.default, {
         id: "groups-list",
         go: this.go,
         groups: this.state.groups,
@@ -25988,6 +25992,8 @@ var _src = __webpack_require__(/*! @vkontakte/vkui/src */ "./node_modules/@vkont
 var _ScreenSpinner = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/ScreenSpinner/ScreenSpinner */ "./node_modules/@vkontakte/vkui/src/components/ScreenSpinner/ScreenSpinner.js"));
 
 var _Alert = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/Alert/Alert */ "./node_modules/@vkontakte/vkui/src/components/Alert/Alert.js"));
+
+var _View = _interopRequireDefault(__webpack_require__(/*! @vkontakte/vkui/src/components/View/View */ "./node_modules/@vkontakte/vkui/src/components/View/View.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26097,6 +26103,7 @@ function (_React$Component) {
     };
     _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
     _this.closePopout = _this.closePopout.bind(_assertThisInitialized(_this));
+    _this.setSpinner = _this.setSpinner.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -26124,6 +26131,8 @@ function (_React$Component) {
               invalidGroups: invalidGroups
             });
 
+            _this2.setSpinner(false);
+
             break;
 
           default:
@@ -26131,9 +26140,7 @@ function (_React$Component) {
         }
       });
 
-      this.setState({
-        popout: _react.default.createElement(_ScreenSpinner.default, null)
-      });
+      this.setSpinner(true);
 
       _vkuiConnect.default.send("VKWebAppCallAPIMethod", {
         "method": "groups.get",
@@ -26145,6 +26152,14 @@ function (_React$Component) {
           "v": "5.95",
           "access_token": this.props.accessToken
         }
+      });
+    }
+  }, {
+    key: "setSpinner",
+    value: function setSpinner(isActive) {
+      var popout = isActive ? _react.default.createElement(_ScreenSpinner.default, null) : null;
+      this.setState({
+        popout: popout
       });
     }
   }, {
@@ -26164,25 +26179,20 @@ function (_React$Component) {
       return this.state.selectedGroups;
     }
   }, {
-    key: "closePopout",
-    value: function closePopout() {
-      this.setState({
-        popout: null
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
       var table = this.createTable();
-      this.closePopout();
-      return _react.default.createElement(_vkui.Panel, {
+      return _react.default.createElement(_View.default, {
+        popout: this.state.popout,
+        activePanel: this.props.id
+      }, _react.default.createElement(_vkui.Panel, {
         id: this.props.id
       }, _react.default.createElement(_vkui.PanelHeader, {
         left: _react.default.createElement(_vkui.HeaderButton, {
           onClick: this.props.go,
           "data-to": "home"
         }, osname === _vkui.IOS ? _react.default.createElement(_chevron_back.default, null) : _react.default.createElement(_back.default, null))
-      }, "\u0421\u043E\u043E\u0431\u0449\u0435\u0441\u0442\u0432\u0430, \u043E\u0442 \u043A\u043E\u0442\u043E\u0440\u044B\u0445 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"), _react.default.createElement(_Group.default, null, _react.default.createElement(_List.default, null, table)));
+      }, "\u0421\u043E\u043E\u0431\u0449\u0435\u0441\u0442\u0432\u0430, \u043E\u0442 \u043A\u043E\u0442\u043E\u0440\u044B\u0445 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"), _react.default.createElement(_Group.default, null, _react.default.createElement(_List.default, null, table))));
     }
   }], [{
     key: "filterInvalidGroups",
