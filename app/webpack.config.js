@@ -74,7 +74,7 @@ module.exports = (env, options) => {
                         },
                     },
                 },*/
-                {
+                /*{
                     test: /\.(jpe?g|png|gif|svg|ico)$/i,
                     use: [
                         {
@@ -84,7 +84,7 @@ module.exports = (env, options) => {
                             }
                         }
                     ]
-                }
+                }*/
             ]
         },
         plugins: [
