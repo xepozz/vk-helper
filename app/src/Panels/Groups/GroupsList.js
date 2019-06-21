@@ -8,6 +8,8 @@ import Group from "@vkontakte/vkui/src/components/Group/Group";
 import List from "@vkontakte/vkui/src/components/List/List";
 import Cell from "@vkontakte/vkui/src/components/Cell/Cell";
 import Link from "@vkontakte/vkui/src/components/Link/Link";
+import connect from "@vkontakte/vkui-connect";
+import App from "./../../App";
 
 const osname = platform();
 
@@ -17,9 +19,23 @@ class GroupsList extends React.Component {
 
         this.state = {
             activePanel: 'home',
-            fetchedUser: null,
             groupsList: [],
+            token: App.props.accessToken
         };
+    }
+
+    componentDidMount() {
+        connect.subscribe((e) => {
+            switch (e.detail.type) {
+                case 'VKWebAppCallAPIMethodResult':
+                    console.log('VKWebAppCallAPIMethodResult');
+                    console.log(e.detail.data);
+                    this.setState({groupsList: e.detail.data});
+                    break;
+                default:
+                    console.log(e.detail.type);
+            }
+        });
     }
 
     createTable = () => {
@@ -71,6 +87,7 @@ GroupsList.propTypes = {
         id: PropTypes.number,
         name: PropTypes.string,
     })),
+    VkSdk: PropTypes.object
 };
 
 export default GroupsList;
