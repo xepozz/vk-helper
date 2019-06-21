@@ -40,6 +40,7 @@ class GroupsList extends React.Component {
             "request_id": Math.random(),
             "params": {
                 "user_ids": this.props.user.id,
+                "extended": true,
                 "v": process.env.VK_API_VERSION,
                 "access_token": this.props.accessToken
             }
