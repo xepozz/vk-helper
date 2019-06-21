@@ -186,7 +186,7 @@ class GroupsList extends React.Component {
         const table = this.createTable();
 
         return (
-            <View popout={this.state.popout} activePanel={this.props.id}>
+            <View id={this.props.id} popout={this.state.popout} activePanel="group-list-panel">
                 <Panel id="group-list-panel">
                     <PanelHeader
                         left={<HeaderButton onClick={this.props.go} data-to="home">
