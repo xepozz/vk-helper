@@ -25920,13 +25920,14 @@ function (_React$Component) {
       return _react.default.createElement(_Root.default, {
         activeView: this.state.activeView
       }, _react.default.createElement(_vkui.View, {
+        id: "main-view",
         activePanel: this.state.activePanel
       }, _react.default.createElement(_Home.default, {
         id: "home",
         fetchedUser: this.state.user,
         go: this.go
       })), _react.default.createElement(_GroupsList.default, {
-        id: "groups-list",
+        id: "groups-list-view",
         go: this.go,
         groups: this.state.groups,
         accessToken: this.state.accessToken,
