@@ -53,10 +53,10 @@ class App extends React.Component {
     render() {
         return (
             <Root activeView={this.state.activeView}>
-                <View activePanel={this.state.activePanel}>
+                <View id="main-view" activePanel={this.state.activePanel}>
                     <Home id="home" fetchedUser={this.state.user} go={this.go}/>
                 </View>
-                <GroupsListView id="groups-list"
+                <GroupsListView id="groups-list-view"
                                 go={this.go}
                                 groups={this.state.groups}
                                 accessToken={this.state.accessToken} user={this.state.user}/>
