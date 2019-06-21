@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 
 const settings = {
     distPath: path.join(__dirname, "build"),
@@ -9,6 +11,14 @@ const settings = {
 
 module.exports = (env, options) => {
     const isDevMode = options.mode === "development";
+    const envs = dotenv.config().parsed;
+    console.log(env);
+    console.log(envs);
+    // reduce it to a nice object, the same as before
+    const envKeys = Object.keys(envs).reduce((prev, next) => {
+        prev[`process.env.${next}`] = JSON.stringify(envs[next]);
+        return prev;
+    }, {});
 
 
     return {
@@ -78,6 +88,7 @@ module.exports = (env, options) => {
             ]
         },
         plugins: [
+            new webpack.DefinePlugin(envKeys),
             new CleanWebpackPlugin([settings.distPath], {
                 verbose: true
             }),
