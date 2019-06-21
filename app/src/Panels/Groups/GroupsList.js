@@ -107,6 +107,27 @@ class GroupsList extends React.Component {
         const items = this.getSelectedGroups();
         const activeItems = Object.keys(items).filter((id) => !!(items[id]));
         // groups that needs to unsubscribe
+        const groupNames = this.state.groupsList.filter((index, group) => activeItems.includes(group.id)).join(', ');
+
+        this.setState({
+            popout:
+                <Alert
+                    actionsLayout="vertical"
+                    actions={[{
+                        title: 'Отписаться',
+                        autoclose: true,
+                        style: 'destructive'
+                    }, {
+                        title: 'Отмена',
+                        autoclose: true,
+                        style: 'cancel'
+                    }]}
+                    onClose={this.closePopout}
+                >
+                    <h2>Подтвердите действие</h2>
+                    <p>Вы действительно хотите отписаться от следующих сообществ/событий: {groupNames}?</p>
+                </Alert>
+        });
         console.log(activeItems)
     };
 
@@ -151,9 +172,13 @@ class GroupsList extends React.Component {
         return list
     };
 
+    closePopout() {
+        this.setState({popout: null});
+    }
+
     render() {
         const table = this.createTable();
-        this.setState({popout: null});
+        this.closePopout();
 
         return (
             <Panel id={this.props.id}>
