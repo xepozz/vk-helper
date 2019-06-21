@@ -26308,7 +26308,7 @@ function (_React$Component) {
         size: "xl",
         level: "2",
         onClick: this.props.go,
-        "data-to": "groups-list"
+        "data-to": "group-list-panel"
       }, "\u0413\u0440\u0443\u043F\u043F\u044B, \u043E\u0442 \u043A\u043E\u0442\u043E\u0440\u044B\u0445 \u043C\u043E\u0436\u043D\u043E \u043E\u0442\u043F\u0438\u0441\u0430\u0442\u044C\u0441\u044F"))));
     }
   }]);
