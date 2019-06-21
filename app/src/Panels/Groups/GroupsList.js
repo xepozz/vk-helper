@@ -9,7 +9,6 @@ import List from "@vkontakte/vkui/src/components/List/List";
 import Cell from "@vkontakte/vkui/src/components/Cell/Cell";
 import Link from "@vkontakte/vkui/src/components/Link/Link";
 import connect from "@vkontakte/vkui-connect";
-import App from "./../../App";
 
 const osname = platform();
 
@@ -20,7 +19,8 @@ class GroupsList extends React.Component {
         this.state = {
             activePanel: 'home',
             groupsList: [],
-            token: App.props.accessToken
+            accessToken: null,
+            user: null
         };
     }
 
@@ -34,6 +34,15 @@ class GroupsList extends React.Component {
                     break;
                 default:
                     console.log(e.detail.type);
+            }
+        });
+        connect.send("VKWebAppCallAPIMethod", {
+            "method": "groups.get",
+            "request_id": Math.random(),
+            "params": {
+                "user_ids": this.state.user.id,
+                "v": process.env.VK_API_VERSION,
+                "access_token": this.state.accessToken
             }
         });
     }
@@ -87,7 +96,10 @@ GroupsList.propTypes = {
         id: PropTypes.number,
         name: PropTypes.string,
     })),
-    VkSdk: PropTypes.object
+    accessToken: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+        id: PropTypes.number.isRequired
+    }).isRequired
 };
 
 export default GroupsList;

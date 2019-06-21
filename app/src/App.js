@@ -12,7 +12,7 @@ class App extends React.Component {
 
         this.state = {
             activePanel: 'home',
-            fetchedUser: null,
+            user: null,
             groups: [],
             accessToken: null
         };
@@ -22,23 +22,26 @@ class App extends React.Component {
         connect.subscribe((e) => {
             switch (e.detail.type) {
                 case 'VKWebAppGetUserInfoResult':
-                    this.setState({fetchedUser: e.detail.data});
+                    this.setState({user: e.detail.data});
                     break;
                 case 'VKWebAppAccessTokenReceived':
                     console.log('VKWebAppAccessTokenReceived');
-                    console.log(e.detail, e.detail.data, e.detail.data.access_token);
+                    console.log(e.detail.data);
                     this.setState({accessToken: e.detail.data.access_token});
                     break;
                 case 'VKWebAppAccessTokenFailed':
                     console.log('VKWebAppAccessTokenFailed');
-                    console.log(e.detail, e.detail.data);
+                    console.log(e.detail.data);
                     break;
                 default:
                     console.log(e.detail.type);
             }
         });
         console.log(process.env, process.env.AUTH_SCOPES);
-        connect.send("VKWebAppGetAuthToken", {"app_id": parseInt(process.env.VK_APP_ID), "scope": process.env.AUTH_SCOPES});
+        connect.send("VKWebAppGetAuthToken", {
+            "app_id": parseInt(process.env.VK_APP_ID),
+            "scope": process.env.AUTH_SCOPES
+        });
         connect.send('VKWebAppGetUserInfo', {});
     }
 
@@ -49,8 +52,11 @@ class App extends React.Component {
     render() {
         return (
             <View activePanel={this.state.activePanel}>
-                <Home id="home" fetchedUser={this.state.fetchedUser} go={this.go}/>
-                <GroupsList id="groups-list" go={this.go} groups={this.state.groups}/>
+                <Home id="home" fetchedUser={this.state.user} go={this.go}/>
+                <GroupsList id="groups-list"
+                            go={this.go}
+                            groups={this.state.groups}
+                            accessToken={this.state.accessToken} user={this.state.user}/>
             </View>
         );
     }
