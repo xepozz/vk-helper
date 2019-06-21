@@ -16096,7 +16096,7 @@ function (_React$Component) {
       console.log(process.env, "friends,groups,status");
 
       _vkuiConnect.default.send("VKWebAppGetAuthToken", {
-        "app_id": "7026981",
+        "app_id": parseInt("7026981"),
         "scope": "friends,groups,status"
       });
 
