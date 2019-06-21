@@ -12,7 +12,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            activeView: 'main',
+            activeView: 'main-view',
             activePanel: 'home',
             user: null,
             groups: [],
