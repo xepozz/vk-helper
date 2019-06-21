@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, IOS, Avatar, ListItem} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Users from '@vkontakte/icons/dist/24/users';
@@ -55,7 +55,8 @@ class GroupsList extends React.Component {
             for (let i = 0; i < groupCount; ++i) {
                 let group = groups[i];
                 list.push(
-                    <Cell key={i} before={<Icon24Users/>}>
+                    <Cell key={i}
+                          before={group.photo_200 ? <Avatar src={group.photo_200}/> : <Icon24Users/>}>
                         <Link href="/group/{group.id}">{group.name}</Link>
                     </Cell>
                 );
