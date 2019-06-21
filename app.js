@@ -16211,7 +16211,9 @@ function (_React$Component) {
           var group = groups[i];
           list.push(_react.default.createElement(_Cell.default, {
             key: i,
-            before: _react.default.createElement(_users.default, null)
+            before: group.photo_200 ? _react.default.createElement(_vkui.Avatar, {
+              src: group.photo_200
+            }) : _react.default.createElement(_users.default, null)
           }, _react.default.createElement(_Link.default, {
             href: "/group/{group.id}"
           }, group.name)));
@@ -16315,7 +16317,7 @@ var Home = function Home(_ref) {
       fetchedUser = _ref.fetchedUser;
   return _react.default.createElement(_vkui.Panel, {
     id: id
-  }, _react.default.createElement(_vkui.PanelHeader, null, "Example"), fetchedUser && _react.default.createElement(_vkui.Group, {
+  }, _react.default.createElement(_vkui.PanelHeader, null, "VK Helper"), fetchedUser && _react.default.createElement(_vkui.Group, {
     title: "User Data Fetched with VK Connect"
   }, _react.default.createElement(_vkui.ListItem, {
     before: fetchedUser.photo_200 ? _react.default.createElement(_vkui.Avatar, {
