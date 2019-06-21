@@ -19,10 +19,10 @@ services:
       - "8080:8080"
       - "443:443"
     hostname: "vk-helper.local"
-#  app-node-watch:
-#    image: node:11.12-alpine
-#    restart: on-failure
-#    volumes:
-#      - ./app:/var/www/app
-#    working_dir: /var/www/app
-#    command: sh -c "until [ ! -f "/tmp/.ready" ] ; do echo sleep && sleep 1 ; done && npm run watch"
+  app-node-watch:
+    image: node:11.12-alpine
+    restart: on-failure
+    volumes:
+      - ./app:/var/www/app
+    working_dir: /var/www/app
+    command: sh -c "until [ ! -f "/tmp/.ready" ] ; do echo sleep && sleep 1 ; done && npm run watch"
