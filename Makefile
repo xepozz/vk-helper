@@ -1,4 +1,5 @@
 init: file-ready-create docker-down docker-pull docker-build docker-up file-ready-delete run-app-makefile
+bcp: build-prod commit-build deploy
 
 run-app-makefile:
 #	cd app && make init
@@ -19,6 +20,9 @@ file-ready-delete:
 	docker run --rm -v ${PWD}/app:/var/www/app --workdir=/var/www/app alpine rm -f /tmp/.ready
 file-ready-create:
 	docker run --rm -v ${PWD}/app:/var/www/app --workdir=/var/www/app alpine touch -f /tmp/.ready
+
+commit-build:
+	git add app/build && git commit -m "Build"
 
 build:
 	docker-compose run --rm app-node-cli npm run dev
