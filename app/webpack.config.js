@@ -12,7 +12,6 @@ const settings = {
 module.exports = (env, options) => {
     const isDevMode = options.mode === "development";
     const envs = dotenv.config().parsed;
-    console.log(env);
     console.log(envs);
     // reduce it to a nice object, the same as before
     const envKeys = Object.keys(envs).reduce((prev, next) => {
