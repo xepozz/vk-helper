@@ -135,7 +135,7 @@ class GroupsList extends React.Component {
                         autoclose: true,
                         style: 'cancel'
                     }]}
-                    onClose={this.setSpinner.apply(false)}
+                    onClose={()=>this.setSpinner(false)}
                 >
                     <h2>Подтвердите действие</h2>
                     <p>Вы действительно хотите отписаться от следующих сообществ/событий: {groupNames}?</p>
