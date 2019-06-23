@@ -48,7 +48,7 @@ class GroupsList extends React.Component {
             }
         })
             .then((e) => {
-                const response = e.data;
+                const response = e.data.response;
                 const groupsList = response.items;
                 console.log(response, groupsList);
                 this.setState({groupsList: groupsList});
