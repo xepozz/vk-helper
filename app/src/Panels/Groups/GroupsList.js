@@ -120,7 +120,10 @@ class GroupsList extends React.Component {
         const items = this.getSelectedGroups();
         const activeItems = Object.keys(items).filter((id) => !!(items[id]));
         // groups that needs to unsubscribe
-        const groupNames = this.state.groupsList.filter((index, group) => activeItems.includes(group.id)).join(', ');
+        const groupNames = this.state.groupsList.filter((index, group) => {
+            console.log(group.id, activeItems);
+            return activeItems.includes(group.id);
+        });
 
         this.setState({
             popout:
@@ -138,7 +141,8 @@ class GroupsList extends React.Component {
                     onClose={this.closePopout}
                 >
                     <h2>Подтвердите действие</h2>
-                    <p>Вы действительно хотите отписаться от следующих сообществ/событий: {groupNames}?</p>
+                    <p>Вы действительно хотите отписаться от следующих сообществ/событий:
+                        {groupNames.join(', ')} {activeItems.join(', ')}?</p>
                 </Alert>
         });
         console.log(activeItems)
