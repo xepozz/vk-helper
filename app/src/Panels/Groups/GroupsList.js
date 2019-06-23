@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS, Avatar, ListItem} from '@vkontakte/vkui';
+import {Panel, PanelHeader, HeaderButton, platform, IOS, Avatar} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Users from '@vkontakte/icons/dist/24/users';
@@ -12,7 +12,6 @@ import Link from "@vkontakte/vkui/src/components/Link/Link";
 import connect from "@vkontakte/vkui-connect";
 import Div from "@vkontakte/vkui/src/components/Div/Div";
 import Button from "@vkontakte/vkui/src/components/Button/Button";
-import {FormLayout} from "@vkontakte/vkui/src";
 import ScreenSpinner from "@vkontakte/vkui/src/components/ScreenSpinner/ScreenSpinner";
 import Alert from "@vkontakte/vkui/src/components/Alert/Alert";
 import View from "@vkontakte/vkui/src/components/View/View";
@@ -42,7 +41,6 @@ class GroupsList extends React.Component {
                     console.log('VKWebAppCallAPIMethodResult');
                     const response = e.detail.data.response;
                     const groupsList = response.items;
-                    console.log(response, groupsList);
                     this.setState({groupsList: groupsList});
                     const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
                     console.log(invalidGroups);
@@ -77,7 +75,7 @@ class GroupsList extends React.Component {
 
     static filterInvalidGroups(groupsList) {
         return groupsList.filter((group, index) => {
-            console.log(group.name);
+            // console.log(group.name);
             const isDeactivated = 'deactivated' in group;
             isDeactivated && console.log('isDeactivated');
 
@@ -120,7 +118,10 @@ class GroupsList extends React.Component {
         const items = this.getSelectedGroups();
         const activeItems = Object.keys(items).filter((id) => !!(items[id]));
         // groups that needs to unsubscribe
-        const groupNames = this.state.groupsList.filter((group) => activeItems.includes(group.id));
+        const groupNames = this.state.groupsList.filter(group => {
+            console.log(group, activeItems, activeItems.includes(group.id));
+            return activeItems.includes(group.id)
+        });
 
         this.setState({
             popout:
