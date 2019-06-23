@@ -14,6 +14,7 @@ const settings = {
 module.exports = (env, options) => {
     const isDevMode = options.mode === "development";
     const envs = dotenv.config().parsed;
+    console.log('Запуск в ' + (isDevMode ? 'Dev' : 'Prod') + '-режиме');
     console.log("Используемые переменные окружения:");
     console.log(envs);
     // reduce it to a nice object, the same as before
@@ -21,12 +22,15 @@ module.exports = (env, options) => {
         prev[`process.env.${next}`] = JSON.stringify(envs[next]);
         return prev;
     }, {});
-
+    const includeFolders = /(src|node_modules\/@vkontakte)/;
+    const groupsOptions = {chunks: "all", minSize: 0, minChunks: 1, reuseExistingChunk: true, enforce: true};
 
     return {
-        devtool: isDevMode ? "source-map" : false,
+        devtool: isDevMode ? "inline-source-map" : false,
         output: {
-            filename: 'app.js',
+            filename: isDevMode
+                ? "[name].js"
+                : "[name].min.js",
             path: __dirname + '/build'
         },
         module: {
@@ -38,10 +42,14 @@ module.exports = (env, options) => {
                 {
                     test: /\.js$/,
                     exclude: /(build)/,
+                    include: includeFolders,
                     loader: 'babel-loader',
+                    options: {
+                        compact: true
+                    }
                 },
                 {
-                    test: /\.s?css$/,
+                    test: /\.(le|sc|c)ss$/,
                     use: [
                         "style-loader",
                         {
@@ -76,7 +84,7 @@ module.exports = (env, options) => {
                         },
                     },
                 },*/
-                /*{
+                {
                     test: /\.(jpe?g|png|gif|svg|ico)$/i,
                     use: [
                         {
@@ -86,7 +94,7 @@ module.exports = (env, options) => {
                             }
                         }
                     ]
-                }*/
+                }
             ]
         },
         plugins: [
@@ -97,12 +105,22 @@ module.exports = (env, options) => {
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, "public/index.html")
             }),
-            new JavaScriptObfuscator ({
-                rotateUnicodeArray: true
-            })
+            // new JavaScriptObfuscator({
+            //     rotateUnicodeArray: false
+            // })
         ],
         optimization: {
-            minimizer: [new UglifyJsPlugin()],
+            minimizer: [
+                new UglifyJsPlugin({
+                    parallel: true,
+                })
+            ],
+            splitChunks: {
+                cacheGroups: {
+                    homePage: {test: /[\\/]src\/Pages\/Home[\\/]/, name: "homePage", ...groupsOptions},
+                    vendors: {test: /[\\/]node_modules[\\/]/, name: 'vendors', ...groupsOptions}
+                },
+            },
         },
     };
 };
