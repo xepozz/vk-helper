@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Panel, PanelHeader, HeaderButton, platform, IOS, Avatar} from '@vkontakte/vkui';
+import {Avatar, HeaderButton, IOS, Panel, PanelHeader, platform} from '@vkontakte/vkui';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon24Users from '@vkontakte/icons/dist/24/users';
@@ -9,7 +9,7 @@ import Group from "@vkontakte/vkui/src/components/Group/Group";
 import List from "@vkontakte/vkui/src/components/List/List";
 import Cell from "@vkontakte/vkui/src/components/Cell/Cell";
 import Link from "@vkontakte/vkui/src/components/Link/Link";
-import connect from "@vkontakte/vkui-connect";
+import connect from "@vkontakte/vkui-connect-promise";
 import Div from "@vkontakte/vkui/src/components/Div/Div";
 import Button from "@vkontakte/vkui/src/components/Button/Button";
 import ScreenSpinner from "@vkontakte/vkui/src/components/ScreenSpinner/ScreenSpinner";
@@ -35,25 +35,6 @@ class GroupsList extends React.Component {
     }
 
     componentDidMount() {
-        connect.subscribe((e) => {
-            switch (e.detail.type) {
-                case 'VKWebAppCallAPIMethodResult':
-                    console.log('VKWebAppCallAPIMethodResult');
-                    const response = e.detail.data.response;
-                    const groupsList = response.items;
-                    this.setState({groupsList: groupsList});
-                    const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
-                    console.log(invalidGroups);
-                    this.setState({invalidGroups: invalidGroups});
-                    this.setSpinner(false);
-                    break;
-                case 'VKWebAppCallAPIMethodFailed':
-                    this.setSpinner(false);
-                    break;
-                default:
-                    console.log(e.detail.type, e.detail);
-            }
-        });
         this.setSpinner(true);
         connect.send("VKWebAppCallAPIMethod", {
             "method": "groups.get",
@@ -65,7 +46,16 @@ class GroupsList extends React.Component {
                 "v": process.env.VK_API_VERSION,
                 "access_token": this.props.accessToken
             }
-        });
+        })
+            .then((e) => {
+                const response = e.detail.data.response;
+                const groupsList = response.items;
+                this.setState({groupsList: groupsList});
+                const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
+                this.setState({invalidGroups: invalidGroups});
+            })
+            .catch((e) => console.error(e))
+            .finally(() => this.setSpinner(false));
     }
 
     setSpinner(isActive) {
@@ -115,13 +105,44 @@ class GroupsList extends React.Component {
     }
 
     unsubscribe = () => {
+        const groupsToLeave = this.getGroupsToLeave();
+        const groupNames = groupsToLeave.map(group => group.name).join(', ');
+
+        this.showAlert(groupNames);
+    };
+
+    getGroupsToLeave() {
         const items = this.getSelectedGroups();
         const activeItems = Object.keys(items).filter((id) => !!(items[id]));
 
-        // groups that needs to unsubscribe
-        const groupsToUnsubscribe = this.state.groupsList.filter(group => activeItems.includes(String(group.id)));
-        const groupNames = groupsToUnsubscribe.map(group => group.name).join(', ');
+        // groups that needs to leave
+        return this.state.groupsList.filter(group => activeItems.includes(String(group.id)));
+    }
 
+    leaveFromGroups() {
+        this.setSpinner(true);
+        const groups = this.getGroupsToLeave();
+        const code = groups.reduce((acc, group) => {
+            return acc + 'API.groups.leave({"group_id": ' + group.id + ')';
+        }) + ';';
+        console.log(code);
+        connect.send("VKWebAppCallAPIMethod", {
+            "method": "groups.leave",
+            "request_id": Math.random(),
+            "params": {
+                "code": JSON.stringify(code),
+                "v": process.env.VK_API_VERSION,
+                "access_token": this.props.accessToken
+            }
+        })
+            .then((e) => {
+                console.log(e);
+            })
+            .catch((e) => console.error(e))
+            .finally(() => this.setSpinner(false));
+    }
+
+    showAlert(groupNames) {
         this.setState({
             popout:
                 <Alert
@@ -129,20 +150,20 @@ class GroupsList extends React.Component {
                     actions={[{
                         title: 'Отписаться',
                         autoclose: true,
+                        action: this.leaveFromGroups,
                         style: 'destructive'
                     }, {
                         title: 'Отмена',
                         autoclose: true,
                         style: 'cancel'
                     }]}
-                    onClose={()=>this.setSpinner(false)}
+                    onClose={() => this.setSpinner(false)}
                 >
                     <h2>Подтвердите действие</h2>
                     <p>Вы действительно хотите отписаться от следующих сообществ/событий: {groupNames}?</p>
                 </Alert>
         });
-        console.log(activeItems)
-    };
+    }
 
     onChange(e) {
         const control = e.currentTarget;
