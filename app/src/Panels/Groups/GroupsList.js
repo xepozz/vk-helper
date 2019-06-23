@@ -158,7 +158,7 @@ class GroupsList extends React.Component {
                         autoclose: true,
                         style: 'cancel'
                     }]}
-                    onClose={this.removeSpinner()}
+                    onClose={this.removeSpinner}
                 >
                     <h2>Подтвердите действие</h2>
                     <p>Вы действительно хотите отписаться от следующих сообществ/событий: {groupNames}?</p>
@@ -192,7 +192,7 @@ class GroupsList extends React.Component {
                 list.push(
                     <Cell key={i} selectable data-group-id={group.id} onChange={this.onChange}
                           before={group.photo_200 ? <Avatar src={group.photo_200}/> : <Icon24Users/>}>
-                        <Link href={"https://vk.com/group" + group.id} target="_blank">{group.name}</Link>
+                        <Link href={"https://vk.com/club" + group.id} target="_blank">{group.name}</Link>
                     </Cell>
                 );
             }
