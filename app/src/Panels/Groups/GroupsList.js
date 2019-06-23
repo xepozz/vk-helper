@@ -47,8 +47,7 @@ class GroupsList extends React.Component {
                 "access_token": this.props.accessToken
             }
         })
-            .then((e) => {
-                const response = e.detail.data.response;
+            .then((response) => {
                 const groupsList = response.items;
                 this.setState({groupsList: groupsList});
                 const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
@@ -135,8 +134,8 @@ class GroupsList extends React.Component {
                 "access_token": this.props.accessToken
             }
         })
-            .then((e) => {
-                console.log(e);
+            .then((response) => {
+                console.log(response);
             })
             .catch((e) => console.error(e))
             .finally(() => this.setSpinner(false));
