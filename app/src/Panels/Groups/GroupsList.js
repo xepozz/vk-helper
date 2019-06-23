@@ -32,6 +32,7 @@ class GroupsList extends React.Component {
         };
         this.onChange = this.onChange.bind(this);
         this.setSpinner = this.setSpinner.bind(this);
+        this.leaveFromGroups = this.leaveFromGroups.bind(this);
     }
 
     componentDidMount() {
@@ -56,7 +57,7 @@ class GroupsList extends React.Component {
                 this.setState({invalidGroups: invalidGroups});
             })
             .catch((e) => console.error(e))
-            .finally(() => this.setSpinner(false));
+            .finally(this.removeSpinner);
     }
 
     setSpinner(isActive) {
@@ -138,7 +139,7 @@ class GroupsList extends React.Component {
         })
             .then((e) => console.log(e))
             .catch((e) => console.error(e))
-            .finally(() => this.setSpinner(false));
+            .finally(this.removeSpinner);
     }
 
     showAlert(groupNames) {
@@ -156,12 +157,16 @@ class GroupsList extends React.Component {
                         autoclose: true,
                         style: 'cancel'
                     }]}
-                    onClose={() => this.setSpinner(false)}
+                    onClose={this.removeSpinner()}
                 >
                     <h2>Подтвердите действие</h2>
                     <p>Вы действительно хотите отписаться от следующих сообществ/событий: {groupNames}?</p>
                 </Alert>
         });
+    }
+
+    removeSpinner() {
+        return this.setSpinner(false);
     }
 
     onChange(e) {
