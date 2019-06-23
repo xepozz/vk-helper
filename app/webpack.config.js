@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const JavaScriptObfuscator = require('webpack-obfuscator');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 
@@ -94,7 +96,13 @@ module.exports = (env, options) => {
             }),
             new HtmlWebpackPlugin({
                 template: path.join(__dirname, "public/index.html")
+            }),
+            new JavaScriptObfuscator ({
+                rotateUnicodeArray: true
             })
-        ]
+        ],
+        optimization: {
+            minimizer: [new UglifyJsPlugin()],
+        },
     };
 };
