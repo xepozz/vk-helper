@@ -77,20 +77,20 @@ class GroupsList extends React.Component {
         return groupsList.filter((group, index) => {
             // console.log(group.name);
             const isDeactivated = 'deactivated' in group;
-            isDeactivated && console.log('isDeactivated');
+            // isDeactivated && console.log('isDeactivated');
 
             const isUserBanned = 'ban_info' in group;
-            isUserBanned && console.log('isUserBanned');
+            // isUserBanned && console.log('isUserBanned');
 
             const hasNoPhoto = 'has_photo' in group && parseInt(group.has_photo) === 0;
-            hasNoPhoto && console.log('hasNoPhoto');
+            // hasNoPhoto && console.log('hasNoPhoto');
 
             const isHiddenFromFeed = 'is_hidden_from_feed' in group && parseInt(group.is_hidden_from_feed) === 1;
-            isHiddenFromFeed && console.log('isHiddenFromFeed');
+            // isHiddenFromFeed && console.log('isHiddenFromFeed');
 
             // этот флаг "1" не только тогда, когда тебя кинули в чс, но и тогда, когда ты "не разрешил сообщения"
             const isMessagesBlocked = false;//'is_messages_blocked' in group && parseInt(group.is_messages_blocked) === 1;
-            isMessagesBlocked && console.log('isMessagesBlocked');
+            // isMessagesBlocked && console.log('isMessagesBlocked');
 
             const statuses = [
                 0, // — не является участником;
@@ -101,13 +101,13 @@ class GroupsList extends React.Component {
                 // 5, // — приглашен.
             ];
             const invalidMemberStatus = 'member_status' in group && statuses.includes(group.member_status);
-            invalidMemberStatus && console.log('invalidMemberStatus');
+            // invalidMemberStatus && console.log('invalidMemberStatus');
 
             const smallMembersCount = 'members_count' in group && group.members_count < 5;
-            smallMembersCount && console.log('smallMembersCount');
+            // smallMembersCount && console.log('smallMembersCount');
 
             const isEventPassed = 'finish_date' in group && group.finish_date < (new Date()).getTime();
-            isEventPassed && console.log('isEventPassed');
+            // isEventPassed && console.log('isEventPassed');
 
             return isDeactivated || isUserBanned || hasNoPhoto || isHiddenFromFeed || isMessagesBlocked ||
                 isEventPassed || invalidMemberStatus || smallMembersCount;
