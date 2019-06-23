@@ -149,7 +149,7 @@ class GroupsList extends React.Component {
         const control = e.currentTarget;
         const dataset = control.dataset;
         const items = this.getSelectedGroups();
-        items[dataset.groupId] = control.checked;
+        items[parseInt(dataset.groupId)] = control.checked;
         this.setState({items: items});
     }
 
