@@ -47,8 +47,9 @@ class GroupsList extends React.Component {
                 "access_token": this.props.accessToken
             }
         })
-            .then((response) => {
-                const groupsList = response.items;
+            .then((e) => {
+                console.log(e)
+                const groupsList = e.response.items;
                 this.setState({groupsList: groupsList});
                 const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
                 this.setState({invalidGroups: invalidGroups});
