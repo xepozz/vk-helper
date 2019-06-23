@@ -120,7 +120,7 @@ class GroupsList extends React.Component {
         const items = this.getSelectedGroups();
         const activeItems = Object.keys(items).filter((id) => !!(items[id]));
         // groups that needs to unsubscribe
-        const groupNames = this.state.groupsList.filter((index, group) => {
+        const groupNames = this.state.groupsList.filter((group) => {
             console.log(group.id, activeItems);
             return activeItems.includes(group.id);
         });
