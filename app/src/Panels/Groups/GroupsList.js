@@ -50,6 +50,7 @@ class GroupsList extends React.Component {
             .then((e) => {
                 const response = e.data;
                 const groupsList = response.items;
+                console.log(response, groupsList);
                 this.setState({groupsList: groupsList});
                 const invalidGroups = GroupsList.filterInvalidGroups(groupsList);
                 this.setState({invalidGroups: invalidGroups});
