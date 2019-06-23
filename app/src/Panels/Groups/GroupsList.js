@@ -33,6 +33,7 @@ class GroupsList extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.setSpinner = this.setSpinner.bind(this);
         this.leaveFromGroups = this.leaveFromGroups.bind(this);
+        this.removeSpinner = this.removeSpinner.bind(this);
     }
 
     componentDidMount() {
